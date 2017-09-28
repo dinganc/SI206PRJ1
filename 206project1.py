@@ -2,6 +2,7 @@ import os
 import filecmp
 
 def getData(file):
+
 #Input: file name
 #Ouput: return a list of dictionary objects where 
 #the keys will come from the first row in the data.
@@ -12,7 +13,20 @@ def getData(file):
 #cases.
 
 	#Your code here:
-	pass
+	import csv
+	header=[]
+	state=0
+	returnlist=[]
+	for line in csv.reader(open(file,'r')):
+		emptydic={}
+		if state==0:
+			header=line
+			state=1
+			continue
+		for col in range(len(line)):
+			emptydic[header[col]]=line[col]
+		returnlist.append(emptydic)
+	return returnlist
 
 #Sort based on key/column
 def mySort(data,col):
