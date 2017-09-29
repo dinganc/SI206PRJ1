@@ -32,9 +32,9 @@ def getData(file):
 def mySort(data,col):
 #Input: list of dictionaries
 #Output: Return a string of the form firstName lastName
-
 	#Your code here:
-	pass
+	return sorted(data,key=lambda x:x[col])[0]['First']+" "+sorted(data,key=lambda x:x[col])[0]['Last']
+
 
 #Create a histogram
 def classSizes(data):
@@ -44,7 +44,11 @@ def classSizes(data):
 # [('Senior', 26), ('Junior', 25), ('Freshman', 21), ('Sophomore', 18)]
 
 	#Your code here:
-	pass
+	d={}
+	for stu in data:
+		if stu['Class'] not in d.keys():d[stu['Class']]=1
+		else:d[stu['Class']]+=1
+	return [(i,d[i]) for i in sorted(d,key=lambda x:d[x],reverse=True)]
 
 
 
@@ -55,7 +59,11 @@ def findDay(a):
 # most often seen in the DOB
 
 	#Your code here:
-	pass
+	d={}
+	for day in a:
+		if day['DOB'].split("/")[1] not in d.keys():d[day['DOB'].split("/")[1]]=1
+		else:d[day['DOB'].split("/")[1]]+=1
+	return int(sorted(d,key=lambda x:d[x],reverse=True)[0])
 
 
 # Find the average age (rounded) of the Students
@@ -65,7 +73,14 @@ def findAge(a):
 # most often seen in the DOB
 
 	#Your code here:
-	pass
+	d={}
+	for mo in a:
+		if mo['DOB'].split("/")[2] not in d.keys():d[mo['DOB'].split("/")[2]]=1
+		else:d[mo['DOB'].split("/")[2]]+=1
+	sumage=0
+	for year in d.keys():
+		sumage+=(2017-int(year))*d[year]
+	return int(sumage/len(a),)
 
 #Similar to mySort, but instead of returning single
 #Student, all of the sorted data is saved to a csv file.
@@ -74,8 +89,9 @@ def mySortPrint(a,col,fileName):
 #Output: None
 
 	#Your code here:
-	pass
-
+	import csv
+	for row in sorted(a, key=lambda x: x[col]):
+		open(fileName,'a').write(row['First']+","+row['Last']+","+row['Email']+'\n')
 
 
 ################################################################
